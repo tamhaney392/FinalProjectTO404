@@ -16,6 +16,46 @@ citibikedata <- read.csv("FDATASAMPLE.csv")
 str(citibikedata)
 ```
 
+## Loading Libraries
+
+```{r}
+library(geosphere)
+library(lubridate)
+library(dplyr)
+```
+
+## Data Cleaning
+
+```{r}
+citibikedata$start.station.id <- as.factor(citibikedata$start.station.id)
+citibikedata$end.station.id <- as.factor(citibikedata$end.station.id)
+citibikedata$bikeid <- as.factor(citibikedata$bikeid)
+citibikedata$usertype <- as.factor(citibikedata$usertype)
+citibikedata$gender <- as.factor(citibikedata$gender)
+citibikedata$age <- 2021 - citibikedata$birth.year
+
+citibikedata$startTime <- as.POSIXct(strptime(citibikedata$starttime, "%Y-%m-%d %H:%M:%S"))
+citibikedata$stopTime <- as.POSIXct(strptime(citibikedata$stoptime, "%Y-%m-%d %H:%M:%S"))
+citibikedata$starthour <- hour(citibikedata$starttime) 
+citibikedata$startDate <- as.Date(citibikedata$starttime)
+citibikedata$stopDate <- as.Date(citibikedata$stoptime)
+citibikedata$distMeters <- distHaversine(cbind(citibikedata$start.station.latitude, citibikedata$start.station.longitude), cbind(citibikedata$end.station.latitude, citibikedata$end.station.longitude))
+citibikedata$speed <- citibikedata$distMeters / citibikedata$tripduration
+citibikedata$startMonth <- months(citibikedata$startDate)
+citibikedata$stopMonth <- months(citibikedata$stopDate)
+citibikedata$startMonthFactor <- as.factor(months(citibikedata$startDate))
+citibikedata$stopMonthFactor <- as.factor(months(citibikedata$stopDate))
+citibikedata$numweekday <- wday(citibikedata$startTime)
+citibikedata$weekNum <- as.numeric(strftime(citibikedata$startDate, format = "%V"))
+citibikedata$speedMetersperSec <- citibikedata$distMeters / citibikedata$tripduration
+citibikedata$dayid <- as.factor(ifelse(citibikedata$numweekday <6, "Weekday", "Weekend"))
+citibikedata$month <- as.factor(month(citibikedata$startDate))
+citibikedata$day <- as.Date(citibikedata$startTime)
+
+
+
+```
+
 ## Patterns -- Jenny
 
 ```{r}
