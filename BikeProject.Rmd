@@ -11,9 +11,8 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Loading the Data
 
-```{r}
+```{r, cache = TRUE}
 citibikedata <- read.csv("FDATASAMPLE.csv")
-str(citibikedata)
 ```
 
 ## Loading Libraries
@@ -53,7 +52,7 @@ citibikedata$dayid <- as.factor(ifelse(citibikedata$numweekday <6, "Weekday", "W
 citibikedata$month <- as.factor(month(citibikedata$startDate))
 citibikedata$day <- as.Date(citibikedata$startTime)
 
-
+str(citibikedata)
 
 ```
 
