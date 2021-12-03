@@ -22,11 +22,12 @@ str(citibikedata)
 library(geosphere)
 library(lubridate)
 library(dplyr)
+library(ggplot2)
 ```
 
 ## Data Cleaning
 
-```{r}
+```{r, cache=TRUE}
 citibikedata$start.station.id <- as.factor(citibikedata$start.station.id)
 citibikedata$end.station.id <- as.factor(citibikedata$end.station.id)
 citibikedata$bikeid <- as.factor(citibikedata$bikeid)
